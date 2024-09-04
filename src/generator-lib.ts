@@ -9,17 +9,7 @@
 import { Project } from 'ts-morph';
 import prettier from 'prettier';
 import camelcase from 'camelcase';
-import {
-  requiredRule,
-  patternRule,
-  minLengthRule,
-  maxLengthRule,
-  emailRule,
-  minimumRule,
-  maximumRule,
-  Definition,
-  Rule
-} from './rules';
+import { Definition, emailRule, maximumRule, maxLengthRule, minimumRule, minLengthRule, patternRule, requiredRule, Rule } from './rules';
 import SwaggerParser from '@apidevtools/swagger-parser';
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
@@ -82,16 +72,17 @@ function makeField(fieldName: string, definition: Definition): string {
 function makeFieldsBody(definition: Definition): string[] {
   if ('allOf' in definition) {
     const definitionKeys = Object.keys(definition.allOf);
-    const allOfFieldsBody = definitionKeys
+    return definitionKeys
       .map(key => makeFieldsBody(definition.allOf[key]))
       .reduce((acc, val) => acc.concat(val), []);
-
-    return allOfFieldsBody;
   }
-  const fields = Object.keys(definition.properties);
-  const fieldsBody = fields.map(fieldName => makeField(fieldName, definition)).filter(item => item !== '');
 
-  return fieldsBody;
+  if (!definition.properties) {
+    return [];
+  }
+
+  const fields = Object.keys(definition.properties);
+  return fields.map(fieldName => makeField(fieldName, definition)).filter(item => item !== '');
 }
 
 function makeDefinition(definitionName: string, definition: Definition): string {

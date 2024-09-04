@@ -10,10 +10,10 @@ Validation rules should have a single source of truth. These rules should be exp
 
 ```bash
 # install locally in project
-npm install @verizonconnect/ngx-form-generator --save-dev
+npm install @robertrudnicki/ngx-form-generator --save-dev
 
 # install globally
-npm install @verizonconnect/ngx-form-generator -g
+npm install @robertrudnicki/ngx-form-generator -g
 ```
 
 ## CLI Usage
@@ -44,7 +44,7 @@ npx ngx-form-generator -i swagger.json -o project/form/src/lib
 ## Library Usage
 
 ```typescript
-import { loadSpec, makeForm, saveFile } from '@verizonconnect/ngx-form-generator';
+import { loadSpec, makeForm, saveFile } from '@robertrudnicki/ngx-form-generator';
 
 async function main() {
   const spec = await loadSpec('swagger.json');
